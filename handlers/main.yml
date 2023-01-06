@@ -1,0 +1,6 @@
+---
+- name: update-grub
+  command: update-grub
+
+- name: update-plymouth
+  command: plymouth-set-default-theme -R spinner
