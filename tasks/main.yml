@@ -1,8 +1,9 @@
 ---
-- name: copy 3KeyCompany templated files
+- name: Copy 3KeyCompany templated files
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
+    mode: "0644"
   loop:
     - { src: motd.j2,
         dest: /etc/motd }
@@ -13,10 +14,11 @@
   tags:
     - branding_welcome_msg
 
-- name: copy CZERTAINLY logo for plymouth
+- name: Copy CZERTAINLY logo for plymouth
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
+    mode: "0644"
   loop:
     - { src: czertainly.png,
         dest: /usr/share/plymouth/themes/spinner/background-tile.png }
@@ -24,10 +26,11 @@
     - branding_plymouth
   notify: update-plymouth
 
-- name: copy CZERTAINLY logo for grub
+- name: Copy CZERTAINLY logo for grub
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
+    mode: "0644"
   loop:
     - { src: czertainly.tga,
         dest: /boot/grub/czertainly.tga }
@@ -35,7 +38,7 @@
     - branding_plymouth
   notify: update-grub
 
-- name: update /etc/defaults/grub with appliance name
+- name: Update /etc/defaults/grub with appliance name
   ansible.builtin.lineinfile:
     path: /etc/default/grub
     regex: '^GRUB_DISTRIBUTOR='
@@ -44,7 +47,7 @@
     - branding_grub
   notify: update-grub
 
-- name: update /etc/defaults/grub with appliance name
+- name: Update /etc/defaults/grub with appliance name
   ansible.builtin.lineinfile:
     path: /etc/default/grub
     regex: '^GRUB_BACKGROUND'
