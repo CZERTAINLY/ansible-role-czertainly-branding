@@ -21,7 +21,7 @@
     mode: "0644"
   loop:
     - { src: ilm.png,
-        dest: /usr/share/plymouth/themes/spinner/background-tile.png }
+        dest: /usr/share/plymouth/themes/spinner/watermark.png }
   tags:
     - branding_plymouth
   notify: update-plymouth
@@ -35,14 +35,14 @@
     - { src: ilm.tga,
         dest: /boot/grub/ilm.tga }
   tags:
-    - branding_plymouth
+    - branding_grub
   notify: update-grub
 
 - name: Update /etc/defaults/grub with appliance name
   ansible.builtin.lineinfile:
     path: /etc/default/grub
-    regex: '^GRUB_DISTRIBUTOR='
-    line: 'GRUB_DISTRIBUTOR="ILM Appliance ({{ ilm_appliance_version }})"'
+    regexp: '^GRUB_DISTRIBUTOR='
+    line: 'GRUB_DISTRIBUTOR="ILM Appliance ({{ czertainly_appliance_version }})"'
   tags:
     - branding_grub
   notify: update-grub
@@ -50,7 +50,7 @@
 - name: Update /etc/defaults/grub with appliance name
   ansible.builtin.lineinfile:
     path: /etc/default/grub
-    regex: '^GRUB_BACKGROUND'
+    regexp: '^GRUB_BACKGROUND'
     insertafter: '^GRUB_DISTRIBUTOR='
     line: "GRUB_BACKGROUND=/boot/grub/ilm.tga"
   tags:
