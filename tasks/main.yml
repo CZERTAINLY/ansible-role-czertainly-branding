@@ -14,35 +14,26 @@
   tags:
     - branding_welcome_msg
 
-- name: Copy CZERTAINLY logo for plymouth
+- name: copy ILM logo for plymouth
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: "0644"
   loop:
-    - { src: czertainly.png,
-        dest: /usr/share/plymouth/themes/spinner/background-tile.png }
+    - { src: ilm.png,
+        dest: /usr/share/plymouth/themes/spinner/watermark.png }
   tags:
     - branding_plymouth
   notify: update-plymouth
 
-- name: Copy CZERTAINLY logo for grub
+- name: copy ILM logo for grub
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: "0644"
   loop:
-    - { src: czertainly.tga,
-        dest: /boot/grub/czertainly.tga }
-  tags:
-    - branding_plymouth
-  notify: update-grub
-
-- name: Update /etc/defaults/grub with appliance name
-  ansible.builtin.lineinfile:
-    path: /etc/default/grub
-    regex: '^GRUB_DISTRIBUTOR='
-    line: 'GRUB_DISTRIBUTOR="CZERTAINLY Appliance ({{ czertainly_appliance_version }})"'
+    - { src: ilm.tga,
+        dest: /boot/grub/ilm.tga }
   tags:
     - branding_grub
   notify: update-grub
@@ -50,9 +41,18 @@
 - name: Update /etc/defaults/grub with appliance name
   ansible.builtin.lineinfile:
     path: /etc/default/grub
-    regex: '^GRUB_BACKGROUND'
+    regexp: '^GRUB_DISTRIBUTOR='
+    line: 'GRUB_DISTRIBUTOR="ILM Appliance ({{ appliance_version }})"'
+  tags:
+    - branding_grub
+  notify: update-grub
+
+- name: Update /etc/defaults/grub with appliance name
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub
+    regexp: '^GRUB_BACKGROUND'
     insertafter: '^GRUB_DISTRIBUTOR='
-    line: "GRUB_BACKGROUND=/boot/grub/czertainly.tga"
+    line: "GRUB_BACKGROUND=/boot/grub/ilm.tga"
   tags:
     - branding_grub
   notify: update-grub
